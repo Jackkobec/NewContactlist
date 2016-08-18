@@ -4,7 +4,7 @@ import java.util.*;
 
 
 /**
- * ContactList class
+ * ContactList class атикпате
  */
 public class ContactList extends Contact {
     ArrayList<Contact> contactList = new ArrayList<Contact>();
@@ -101,7 +101,7 @@ public class ContactList extends Contact {
     }
 
     /**
-     * Remove by delParam. If not found show special message
+     * Remove by delParam. If not found show special message.
      */
     public ArrayList<Contact> removeByDelParam(ArrayList<Contact> contactList, String delParam) {
         int resultCounter = contactList.size();

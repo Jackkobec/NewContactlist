@@ -36,6 +36,7 @@ public class Contact {
     /**
      * Getters \ setters
      */
+
     public String getName() {
         return name;
     }
