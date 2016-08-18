@@ -1,5 +1,6 @@
 package com.jss.newcontactlist;
 
+import java.util.List;
 import java.util.regex.*;
 import java.util.Scanner;
 
@@ -28,14 +29,14 @@ public class ContactListTest {
         Contact contact7 = new Contact("Inokyntiy", "097 7777777");
 
         ContactList list = new ContactList();
-        list.contactList.add(contact0);
-        list.contactList.add(contact1);
-        list.contactList.add(contact2);
-        list.contactList.add(contact3);
-        list.contactList.add(contact4);
-        list.contactList.add(contact5);
-        list.contactList.add(contact6);
-        list.contactList.add(contact7);
+        list.addToTheContactList(contact0);
+        list.addToTheContactList(contact1);
+        list.addToTheContactList(contact2);
+        list.addToTheContactList(contact3);
+        list.addToTheContactList(contact4);
+        list.addToTheContactList(contact5);
+        list.addToTheContactList(contact6);
+        list.addToTheContactList(contact7);
 
 
         System.out.println("Добро пожаловать в интерактивный контакт - лист!");
@@ -66,64 +67,61 @@ public class ContactListTest {
         switch (sel) {
             case 0: {
                 System.out.println("Все исходные контакты:");
-                list.contactListShow(list.contactList);
+                list.contactListShow();
                 subMenu();
             }
             break;
             case 1: {
                 System.out.println("Первые 5 контактов:");
-                list.contactListShowFirstFive(list.contactList);
+                list.contactListShowFirst(5);
                 subMenu();
             }
             break;
             case 2: {
                 System.out.println("Последние 5 контактов:");
-                list.contactListShowLastFive(list.contactList);
+                list.contactListShowLastFive();
                 subMenu();
             }
             break;
             case 3: {
                 System.out.println("MTC contacts: \n");
-                list.contactListShowMTC(list.contactList);
+                list.contactListShowOperator("MTC");
                 subMenu();
             }
             break;
             case 4: {
                 System.out.println("Kievstar contacts: \n");
-                list.contactListShowKievstar(list.contactList);
+                list.contactListShowOperator("Kievstar");
                 subMenu();
             }
             break;
             case 5: {
                 System.out.println("Удаление последнего контакта и отображение без него:");
-                list.removeLastContact(list.contactList);
-                list.contactListShow(list.contactList);
+                list.removeLastContact();
+                list.contactListShow();
                 subMenu();
             }
             break;
             case 6: {
-                System.out.println("Поиск контакта по мультипараметру(имени или номеру):");
-                list.findByFindParam(list.contactList, "Vasa");
-
+               list.findByFindParam("Vasa");
                 subMenu();
             }
             break;
             case 7: {
-                System.out.println("Добавление контакта в контакт-лист c консоли:");
-                list.addToTheContactList(list.contactList, list.contactAddFromConsole());
-                list.contactListShow(list.contactList);
+                list.addToTheContactList(new Contact().contactAddFromConsole());
+                list.contactListShow();
                 subMenu();
             }
             break;
             case 8: {
-                list.removeByDelParam(list.contactList, "Vasa");
-                list.contactListShow(list.contactList);
+                list.removeByDelParam("Vasa");
+                list.contactListShow();
                 subMenu();
             }
             break;
             case 9: {
-                list.updateByParam(list.contactList, "Vasa");
-                list.contactListShow(list.contactList);
+                list.updateByParam("Vasa");
+                list.contactListShow();
                 subMenu();
             }
             break;

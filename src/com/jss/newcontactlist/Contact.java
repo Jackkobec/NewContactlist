@@ -2,26 +2,20 @@ package com.jss.newcontactlist;
 
 import java.util.Scanner;
 import java.util.regex.*;
-/**Меня замахал NullPointerException и поэтому было решено применить ArrayList т.к. он может хранить в себе даже Null.
- * Весь головняк по расширению и прочим телодвижениям по массиву тоже перешел к ArrayList-у. Слава JDK.
- *Фиксы:
- * -все классы отдельно, все методы отдельно, не статик методы;
- * -более глубоко изучено применение модификаторов доступа, так так же геттеров и сеттеров;
- * -применено наследование чтобы покрутить protected поля;
- * -в методы добавлены проверки отрицательного резултата;
- * -сделано еще больше открытий;
+/**Изменены некоторіе методі по рекомендациям Ани
+ * Не передаем в методы аргументом лист, а юзаем нестатик метод напрямую от инстанса объекта класса ContactList
  */
 /**
  * @autor   Jack:
  * email:   jackkobec@gmail.com
  * Skype:   skypejs77
- * @version 3.0
+ * @version 3.1 Anna Edition
  */
 /**
  * Contact class
  */
 public class Contact {
-    protected String name;
+    private String name;
     private String phoneNumber;
     /**
      * Constructors
@@ -66,7 +60,7 @@ public class Contact {
     public  void nameInput(Scanner sc) {
 
         System.out.print("\n>>>Enter contact name: ");
-        this.name = sc.nextLine();
+        setName(sc.nextLine());
     }
 
     /**
@@ -119,6 +113,21 @@ public class Contact {
         Pattern p = Pattern.compile("^[\\s0-9\\s]{7,14}$");
         Matcher m = p.matcher(getPhoneNumber());
         return m.matches();
+    }
+    public Contact contactAddFromConsole(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\nДля записи имени используйте символы a-z, A-Z, 0-9, _\n" +
+                "Длина имени от 3 до 15 символов с учетом пробелов. Пример: Vasa Pyatochkin");
+        nameInput(sc);
+        validatorName(getName());
+
+        System.out.println("\nДля записи номера используйте цифры 0-9.\n" +
+                "Длина номера от 7 до 14 символов с учетом пробелов. Допускаются проблелы. Пример: 097 777 77 77");
+        inputPhoneNamber(sc);
+        validatorPhone(getPhoneNumber());
+
+        return new Contact(getName(), getPhoneNumber());
     }
 
 }
