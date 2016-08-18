@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.jss.newcontactlist.Contact</OriginalElement>
+  <nodes>
+    <node x="0.0" y="345.0">com.jss.newcontactlist.ContactList</node>
+    <node x="167.0" y="733.0">com.jss.newcontactlist.ContactListTest</node>
+    <node x="120.5" y="0.0">com.jss.newcontactlist.Contact</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.jss.newcontactlist.ContactListTest" target="com.jss.newcontactlist.Contact">
+      <point x="58.25" y="-69.5" />
+      <point x="341.75" y="708.0" />
+      <point x="381.5" y="708.0" />
+      <point x="381.5" y="320.0" />
+      <point x="365.0" y="320.0" />
+      <point x="81.5" y="147.5" />
+    </edge>
+    <edge source="com.jss.newcontactlist.ContactListTest" target="com.jss.newcontactlist.ContactList">
+      <point x="-58.25" y="-69.5" />
+      <point x="225.25" y="708.0" />
+      <point x="185.5" y="708.0" />
+      <point x="0.0" y="169.0" />
+    </edge>
+    <edge source="com.jss.newcontactlist.ContactList" target="com.jss.newcontactlist.Contact">
+      <point x="0.0" y="-169.0" />
+      <point x="185.5" y="320.0" />
+      <point x="202.0" y="320.0" />
+      <point x="-81.5" y="147.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="37.0" y="476.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
