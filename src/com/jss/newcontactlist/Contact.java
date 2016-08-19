@@ -1,23 +1,21 @@
 package com.jss.newcontactlist;
 
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.*;
 
 /**
- * Изменены некоторые методы по рекомендациям Ани
- * Не передаем в методы аргументом лист, а юзаем нестатик метод напрямую от инстанса объекта класса ContactList
- * Удалены старые методы
  *
  * @autor Jack:
  * email:   jackkobec@gmail.com
  * Skype:   skypejs77
- * @version 3.2 Anna Edition
+ * @version 3.3
  */
 
 /**
  * Contact class
  */
-public class Contact {
+public class Contact implements Serializable {
     private String name;
     private String phoneNumber;
 

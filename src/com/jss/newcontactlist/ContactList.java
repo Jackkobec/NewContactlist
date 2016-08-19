@@ -1,12 +1,13 @@
 package com.jss.newcontactlist;
 
+import java.io.*;
 import java.util.*;
 
 
 /**
- * ContactList class атикпате
+ * ContactList class
  */
-public class ContactList {
+public class ContactList implements Serializable {
 
     public static final String MTS = "095";
     public static final String KievStar = "097";
@@ -23,6 +24,12 @@ public class ContactList {
      */
 
     public void contactListShow() {
+        for (int i = 0; i < contactList.size(); i++) {
+            contactList.get(i).contactShow();
+        }
+    }
+    //Overload
+    public void contactListShow( List<Contact> contactList) {
         for (int i = 0; i < contactList.size(); i++) {
             contactList.get(i).contactShow();
         }
@@ -183,5 +190,38 @@ public class ContactList {
         return true;
     }
 
+    public void teleport() throws IOException {
+        FileOutputStream fos = new FileOutputStream("D://a.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
 
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+    }
+
+    public void replicate() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("D://a.txt");
+        ObjectInputStream oin = new ObjectInputStream(fis);
+
+        ContactList replicatedContactList = (ContactList) oin.readObject();
+        replicatedContactList.contactListShow();
+    }
+
+//old worked version
+   /* public void teleport(ContactList list) throws IOException {
+        FileOutputStream fos = new FileOutputStream("D://a.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(list);
+        oos.flush();
+        oos.close();
+    }
+
+    public void replicate() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("D://a.txt");
+        ObjectInputStream oin = new ObjectInputStream(fis);
+        ContactList replicatedContactList = (ContactList) oin.readObject();
+        replicatedContactList.contactListShow(replicatedContactList.contactList);
+
+    }*/
 }

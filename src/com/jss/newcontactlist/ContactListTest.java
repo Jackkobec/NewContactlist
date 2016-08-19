@@ -1,6 +1,7 @@
 package com.jss.newcontactlist;
 
 
+import java.io.IOException;
 import java.util.regex.*;
 import java.util.Scanner;
 
@@ -9,13 +10,14 @@ import java.util.Scanner;
  * Contact test
  */
 public class ContactListTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         mainMenu();
 
+
     }
 
-    public static void mainMenu() {
+    public static void mainMenu() throws IOException, ClassNotFoundException {
         Scanner sc = new Scanner(System.in);
         Contact contact0 = new Contact();
         contact0.setName("Vasa");
@@ -38,6 +40,10 @@ public class ContactListTest {
         list.addToTheContactList(contact5);
         list.addToTheContactList(contact6);
         list.addToTheContactList(contact7);
+
+        list.teleport();
+
+        list.replicate();
 
 
         System.out.println("Добро пожаловать в интерактивный контакт - лист!");
@@ -132,7 +138,7 @@ public class ContactListTest {
     /**
      * Подменю для возврата в главное меню по вводу 0
      */
-    public static void subMenu() {
+    public static void subMenu() throws IOException, ClassNotFoundException {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Возврат в ГЛАВНОЕ МЕНЮ, нажмите \"0\"");
