@@ -2,21 +2,25 @@ package com.jss.newcontactlist;
 
 import java.util.Scanner;
 import java.util.regex.*;
-/**Изменены некоторіе методі по рекомендациям Ани
- * Не передаем в методы аргументом лист, а юзаем нестатик метод напрямую от инстанса объекта класса ContactList
- */
+
 /**
- * @autor   Jack:
+ * Изменены некоторые методы по рекомендациям Ани
+ * Не передаем в методы аргументом лист, а юзаем нестатик метод напрямую от инстанса объекта класса ContactList
+ * Удалены старые методы
+ *
+ * @autor Jack:
  * email:   jackkobec@gmail.com
  * Skype:   skypejs77
- * @version 3.1 Anna Edition
+ * @version 3.2 Anna Edition
  */
+
 /**
  * Contact class
  */
 public class Contact {
     private String name;
     private String phoneNumber;
+
     /**
      * Constructors
      */
@@ -27,6 +31,7 @@ public class Contact {
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
+
     /**
      * Getters \ setters
      */
@@ -46,18 +51,20 @@ public class Contact {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     /**
      * Format contact info to template and show
      */
-    public String contactShow() {
+
+    public void contactShow() {
         System.out.println(String.format("\nname: %s\nphoneNamber: %s ", name, phoneNumber
                 + "\n------------------------"));
-        return "";
     }
+
     /**
      * Input contact name from console
      */
-    public  void nameInput(Scanner sc) {
+    public void nameInput(Scanner sc) {
 
         System.out.print("\n>>>Enter contact name: ");
         setName(sc.nextLine());
@@ -79,7 +86,7 @@ public class Contact {
         while (!checkName()) {
             System.out.println("Не правильно введено имя. Для записи имени используйте символы a-z, A-Z, 0-9, _\n" +
                     "Длина имени от 3 до 15 символов с учетом пробелов. Пример: Vasa Pyatochkin");
-             nameInput(sc);
+            nameInput(sc);
         }
 
     }
@@ -96,7 +103,9 @@ public class Contact {
         }
 
 
-    } /**
+    }
+
+    /**
      * Патерн валидации имени
      */
     public boolean checkName() {
@@ -114,7 +123,8 @@ public class Contact {
         Matcher m = p.matcher(getPhoneNumber());
         return m.matches();
     }
-    public Contact contactAddFromConsole(){
+
+    public Contact contactAddFromConsole() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("\nДля записи имени используйте символы a-z, A-Z, 0-9, _\n" +

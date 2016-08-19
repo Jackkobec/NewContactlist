@@ -1,6 +1,6 @@
 package com.jss.newcontactlist;
 
-import java.util.List;
+
 import java.util.regex.*;
 import java.util.Scanner;
 
@@ -12,6 +12,7 @@ public class ContactListTest {
     public static void main(String[] args) {
 
         mainMenu();
+
     }
 
     public static void mainMenu() {
@@ -103,7 +104,7 @@ public class ContactListTest {
             }
             break;
             case 6: {
-               list.findByFindParam("Vasa");
+                list.findByFindParam("Vasa");
                 subMenu();
             }
             break;
@@ -167,6 +168,5 @@ public class ContactListTest {
         Matcher m = p.matcher(selection);
         return m.matches();
     }
-
 
 }
