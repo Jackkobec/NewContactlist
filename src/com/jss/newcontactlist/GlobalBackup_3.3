@@ -1,0 +1,548 @@
+package com.jss.newcontactlist;
+
+import java.io.Serializable;
+import java.util.Scanner;
+import java.util.regex.*;
+
+/**
+ *
+ * @autor Jack:
+ * email:   jackkobec@gmail.com
+ * Skype:   skypejs77
+ * @version 3.3
+ */
+
+/**
+ * Contact class
+ */
+public class Contact implements Serializable {
+    private String name;
+    private String phoneNumber;
+
+    /**
+     * Constructors
+     */
+    public Contact() {
+    }
+
+    public Contact(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Getters \ setters
+     */
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Format contact info to template and show
+     */
+
+    public void contactShow() {
+        System.out.println(String.format("\nname: %s\nphoneNamber: %s ", name, phoneNumber
+                + "\n------------------------"));
+    }
+
+    /**
+     * Input contact name from console
+     */
+    public void nameInput(Scanner sc) {
+
+        System.out.print("\n>>>Enter contact name: ");
+        setName(sc.nextLine());
+    }
+
+    /**
+     * Input contact phone from console
+     */
+    public void inputPhoneNamber(Scanner sc) {
+        System.out.print("\n>>>Enter contact phone: ");
+        setPhoneNumber(sc.nextLine());
+    }
+
+    /**
+     * Валидатор имени символы a-z, A-Z, 0-9, длина 3-15
+     */
+    public void validatorName(String name) {
+        Scanner sc = new Scanner(System.in);
+        while (!checkName()) {
+            System.out.println("Не правильно введено имя. Для записи имени используйте символы a-z, A-Z, 0-9, _\n" +
+                    "Длина имени от 3 до 15 символов с учетом пробелов. Пример: Vasa Pyatochkin");
+            nameInput(sc);
+        }
+
+    }
+
+    /**
+     * Валидатор иномера телефона символы -9, длина 7-14
+     */
+    public void validatorPhone(String phoneNamber) {
+        Scanner sc = new Scanner(System.in);
+        while (!checkPhoneNamber()) {
+            System.out.println("Не правильно введен номер телефона. Для записи номера используйте цифры 0-9.\n" +
+                    "Длина номера от 7 до 14 символов с учетом пробелов. Допускаются проблелы. Пример: 093 772 17 49");
+            inputPhoneNamber(sc);
+        }
+
+
+    }
+
+    /**
+     * Патерн валидации имени
+     */
+    public boolean checkName() {
+        Pattern p = Pattern.compile("^[\\sA-Za-z0-9_]{3,15}$");
+        Matcher m = p.matcher(name);
+        return m.matches();
+    }
+
+    /**
+     * Патерн валидации номера телефона
+     */
+    public boolean checkPhoneNamber() {
+
+        Pattern p = Pattern.compile("^[\\s0-9\\s]{7,14}$");
+        Matcher m = p.matcher(getPhoneNumber());
+        return m.matches();
+    }
+
+    public Contact contactAddFromConsole() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\nДля записи имени используйте символы a-z, A-Z, 0-9, _\n" +
+                "Длина имени от 3 до 15 символов с учетом пробелов. Пример: Vasa Pyatochkin");
+        nameInput(sc);
+        validatorName(getName());
+
+        System.out.println("\nДля записи номера используйте цифры 0-9.\n" +
+                "Длина номера от 7 до 14 символов с учетом пробелов. Допускаются проблелы. Пример: 097 777 77 77");
+        inputPhoneNamber(sc);
+        validatorPhone(getPhoneNumber());
+
+        return new Contact(getName(), getPhoneNumber());
+    }
+
+}
+
+
+package com.jss.newcontactlist;
+
+import java.io.*;
+import java.util.*;
+
+
+/**
+ * ContactList class
+ */
+public class ContactList implements Serializable {
+
+    public static final String MTS = "095";
+    public static final String KievStar = "097";
+
+
+    List<Contact> contactList = new ArrayList<>(); // ромбовидная запись из JDK 7
+
+    public boolean addToTheContactList(Contact contact) {
+        return contactList.add(contact);
+    }
+
+    /**
+     * Show all list
+     */
+
+    public void contactListShow() {
+        for (int i = 0; i < contactList.size(); i++) {
+            contactList.get(i).contactShow();
+        }
+    }
+    //Overload
+    public void contactListShow( List<Contact> contactList) {
+        for (int i = 0; i < contactList.size(); i++) {
+            contactList.get(i).contactShow();
+        }
+    }
+
+    /**
+     * Show contacts by count
+     */
+    public void contactListShowFirst(int count) {
+        if (count <= 0 || count > contactList.size()) {
+            System.out.println("incorrect count");
+            return;
+        }
+
+        for (int i = 0; i < count; i++) {
+            contactList.get(i).contactShow();
+        }
+    }
+
+    /**
+     * Show last five
+     */
+    public void contactListShowLastFive() {
+        for (int i = contactList.size() - 5; i < contactList.size(); i++) {
+            contactList.get(i).contactShow();
+        }
+    }
+
+    /**
+     * Joined method for show operators contact by incoming code
+     */
+    public void contactListShowOperator(String operator) {
+        if (!((operator != null) && (operator.equals("MTC") || operator.equals("Kievstar")))) {
+            System.out.println("unknown operator");
+            ;
+        }
+        String code = "";
+        if (operator.equals("MTC")) code = MTS;
+        else code = KievStar;
+        int resultCounter = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getPhoneNumber().substring(0, 3).contains(code)) {
+                contactList.get(i).contactShow();
+
+            } else resultCounter++;
+        }
+        if (resultCounter == contactList.size()) {
+            System.out.println("operator's contacts not found.");
+        }
+    }
+
+    /**
+     * Show all MTC. If not found show special message
+     */
+    public String contactListShowMTC(ArrayList<Contact> contactList) {
+        int resultCounter = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getPhoneNumber().substring(0, 3).contains("MTS")) {
+                contactList.get(i).contactShow();
+
+            } else resultCounter++;
+        }
+        if (resultCounter == contactList.size()) {
+            System.out.println("MTS contacts not found.");
+        }
+        return null;
+    }
+
+    /**
+     * Show all Kievstar. If not found show special message
+     */
+    public String contactListShowKievstar(ArrayList<Contact> contactList) {
+        int resultCounter = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getPhoneNumber().substring(0, 3).contains("KievStar")) {
+                contactList.get(i).contactShow();
+
+            } else resultCounter++;
+        }
+        if (resultCounter == contactList.size()) {
+            System.out.println("Kievstar contacts not found.");
+        }
+        return null;
+    }
+
+    /**
+     * Remove last contact from list
+     */
+    /*public ArrayList<Contact> removeLastContact(ArrayList<Contact> contactList) {
+        contactList.remove(contactList.size() - 1);
+        return contactList;
+    }*/
+    public boolean removeLastContact() {
+        return contactList.remove(contactList.size() - 1) != null;
+    }
+
+    /**
+     * Find by multiparameters. If not found show special message
+     */
+
+    public List<Contact> findByFindParam(String findParam) {
+        int resultCounter = 0;
+        List<Contact> find = new ArrayList<>();
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getName().contains(findParam) || contactList.get(i).getPhoneNumber().contains(findParam)) {
+                find.add(contactList.get(i));
+                find.get(i).contactShow();
+            } else resultCounter++;
+        }
+        if (resultCounter == contactList.size()) {
+            System.out.println("По параметру " + findParam + " контакты не найдены.");
+        }
+
+        return find;
+    }
+
+    /**
+     * Remove by delParam. If not found show special message.//
+     */
+
+    public boolean removeByDelParam(String delParam) {
+        int resultCounter = contactList.size();
+        for (int i = 0; i < contactList.size(); i++) {
+            while (contactList.get(i).getName().contains(delParam) || contactList.get(i).getPhoneNumber().contains(delParam)) {
+                contactList.remove(i);
+            }
+        }
+
+        if (resultCounter == contactList.size()) {
+            System.out.println("По параметру " + delParam + " контакты не найдены.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Update data by updateParam. If not found show special message
+     */
+
+    public boolean updateByParam(String updateParam) {
+        Scanner sc = new Scanner(System.in);
+        int resultCounter = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getName().contains(updateParam) || contactList.get(i).getPhoneNumber().contains(updateParam)) {
+                System.out.println("Введите новое имя для  " + contactList.get(i).getName() + ":");
+                contactList.get(i).nameInput(sc);
+                contactList.get(i).validatorName(contactList.get(i).getName());
+
+                System.out.println("ВВедите новый номер вместо " + contactList.get(i).getPhoneNumber() + ":");
+                contactList.get(i).inputPhoneNamber(sc);
+                contactList.get(i).validatorPhone(contactList.get(i).getPhoneNumber());
+            } else resultCounter++;
+        }
+        if (resultCounter == contactList.size()) {
+            System.out.println("По параметру " + updateParam + " контакты не найдены.");
+            return false;
+        }
+        return true;
+    }
+
+    public void teleport() throws IOException {
+        FileOutputStream fos = new FileOutputStream("D://a.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+    }
+
+    public void replicate() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("D://a.txt");
+        ObjectInputStream oin = new ObjectInputStream(fis);
+
+        ContactList replicatedContactList = (ContactList) oin.readObject();
+        replicatedContactList.contactListShow();
+    }
+
+//old worked version
+   /* public void teleport(ContactList list) throws IOException {
+        FileOutputStream fos = new FileOutputStream("D://a.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(list);
+        oos.flush();
+        oos.close();
+    }
+
+    public void replicate() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("D://a.txt");
+        ObjectInputStream oin = new ObjectInputStream(fis);
+        ContactList replicatedContactList = (ContactList) oin.readObject();
+        replicatedContactList.contactListShow(replicatedContactList.contactList);
+
+    }*/
+}
+package com.jss.newcontactlist;
+
+
+import java.io.IOException;
+import java.util.regex.*;
+import java.util.Scanner;
+
+
+/**
+ * Contact test
+ */
+public class ContactListTest {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+        mainMenu();
+
+
+    }
+
+    public static void mainMenu() throws IOException, ClassNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        Contact contact0 = new Contact();
+        contact0.setName("Vasa");
+        contact0.setPhoneNumber("095 1232323");
+
+        Contact contact1 = new Contact("Petya", "097 2323232");
+        Contact contact2 = new Contact("Petya", "095 2323232");
+        Contact contact3 = new Contact("Anna", "097 54545454");
+        Contact contact4 = new Contact("Lena", "095 1111111");
+        Contact contact5 = new Contact("Lada", "097 5555555");
+        Contact contact6 = new Contact("Nadia", "095 1212121");
+        Contact contact7 = new Contact("Inokyntiy", "097 7777777");
+
+        ContactList list = new ContactList();
+        list.addToTheContactList(contact0);
+        list.addToTheContactList(contact1);
+        list.addToTheContactList(contact2);
+        list.addToTheContactList(contact3);
+        list.addToTheContactList(contact4);
+        list.addToTheContactList(contact5);
+        list.addToTheContactList(contact6);
+        list.addToTheContactList(contact7);
+
+        list.teleport();
+
+        list.replicate();
+
+
+        System.out.println("Добро пожаловать в интерактивный контакт - лист!");
+        System.out.println(">>>>>>>MAIN MENU / ГЛАВНОЕ МЕНЮ<<<<<<<:");
+        System.out.println("Выберите действие");
+        System.out.println("\"0\" - Show All/Вывод на экран всех исходных контактов");
+        System.out.println("\"1\" - Show first 5 contacts/Показать первые 5 контактов");
+        System.out.println("\"2\" - Show last 5 contacts/Показать последние 5 контактов");
+        System.out.println("\"3\" - Show all MTC contacts/Показать все МТС контакты");
+        System.out.println("\"4\" - Show all Kievstar contacts/Показать все Киевстар контакты");
+        System.out.println("\"5\" - Remove Last Contact and show without him/Удалить последний контакт и показать без него");
+        System.out.println("\"6\" - Find contact by multiparameters(name or phone)/Поиск контакта по мультипараметру(имени или номеру)");
+        System.out.println("\"7\" - Add to the contactList from console/Добавление в контакт лист нового контакта из консоли");
+        System.out.println("\"8\" - Remove from contactList by multiparameters(name or phone) adn show contactList without him/\n" +
+                "Удаление контакта по мультипараметру(имени или номеру) и отображение контакт - листа без него");
+        System.out.println("\"9\" - Updating contact info. At first we find current contact by multiparameters(name or phone) and add new data\n" +
+                "from console");
+        // System.out.println("\"q\" - Exit from program/Выход из программы"); will be released later
+        System.out.print("Сделайте выбор пункта меню: ");
+
+//        System.out.println("=========================");
+
+        String selection = sc.nextLine();
+        String res = menuValidator(selection);
+
+        int sel = Integer.parseInt(res);
+
+        switch (sel) {
+            case 0: {
+                System.out.println("Все исходные контакты:");
+                list.contactListShow();
+                subMenu();
+            }
+            break;
+            case 1: {
+                System.out.println("Первые 5 контактов:");
+                list.contactListShowFirst(5);
+                subMenu();
+            }
+            break;
+            case 2: {
+                System.out.println("Последние 5 контактов:");
+                list.contactListShowLastFive();
+                subMenu();
+            }
+            break;
+            case 3: {
+                System.out.println("MTC contacts: \n");
+                list.contactListShowOperator("MTC");
+                subMenu();
+            }
+            break;
+            case 4: {
+                System.out.println("Kievstar contacts: \n");
+                list.contactListShowOperator("Kievstar");
+                subMenu();
+            }
+            break;
+            case 5: {
+                System.out.println("Удаление последнего контакта и отображение без него:");
+                list.removeLastContact();
+                list.contactListShow();
+                subMenu();
+            }
+            break;
+            case 6: {
+                list.findByFindParam("Vasa");
+                subMenu();
+            }
+            break;
+            case 7: {
+                list.addToTheContactList(new Contact().contactAddFromConsole());
+                list.contactListShow();
+                subMenu();
+            }
+            break;
+            case 8: {
+                list.removeByDelParam("Vasa");
+                list.contactListShow();
+                subMenu();
+            }
+            break;
+            case 9: {
+                list.updateByParam("Vasa");
+                list.contactListShow();
+                subMenu();
+            }
+            break;
+        }
+    }
+
+    /**
+     * Подменю для возврата в главное меню по вводу 0
+     */
+    public static void subMenu() throws IOException, ClassNotFoundException {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Возврат в ГЛАВНОЕ МЕНЮ, нажмите \"0\"");
+        System.out.println("\"0\" - Return to the MAIN MENU");
+
+        int subSelect = sc.nextInt();
+        while (subSelect != 0) {
+            System.out.println("Incorrect Selection");
+            subSelect = sc.nextInt();
+
+        }
+        mainMenu();
+    }
+
+    /**
+     * Валидатор вібора пункта меню
+     */
+    public static String menuValidator(String selection) {
+        Scanner sc = new Scanner(System.in);
+        while (!checkSelection(selection)) {
+            System.out.println("Не правильно введен пункт меню. ВВедите число от 0 до 9. Пример: 7");
+            selection = sc.nextLine();
+        }
+        return selection;
+    }
+
+    /**
+     * Патерн валидации выбора пункта меню, число 0-9, один символ
+     */
+    public static boolean checkSelection(String selection) {
+
+        Pattern p = Pattern.compile("^[0-9]{1}$");
+        Matcher m = p.matcher(selection);
+        return m.matches();
+    }
+
+}
