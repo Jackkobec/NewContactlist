@@ -191,7 +191,8 @@ public class ContactList implements Serializable {
     }
 
     public void teleport() throws IOException {
-        FileOutputStream fos = new FileOutputStream("D://a.txt");
+        String fileName = "D://ContactList.txt";
+        FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
         oos.writeObject(this);
@@ -200,7 +201,8 @@ public class ContactList implements Serializable {
     }
 
     public void replicate() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("D://a.txt");
+        String fileName = "D://ContactList.txt";
+        FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream oin = new ObjectInputStream(fis);
 
         ContactList replicatedContactList = (ContactList) oin.readObject();

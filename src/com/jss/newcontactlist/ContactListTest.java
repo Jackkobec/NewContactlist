@@ -18,7 +18,7 @@ public class ContactListTest {
     }
 
     public static void mainMenu() throws IOException, ClassNotFoundException {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = getScanner();
         Contact contact0 = new Contact();
         contact0.setName("Vasa");
         contact0.setPhoneNumber("095 1232323");
@@ -41,9 +41,9 @@ public class ContactListTest {
         list.addToTheContactList(contact6);
         list.addToTheContactList(contact7);
 
-        list.teleport();
+        // list.teleport();
 
-        list.replicate();
+        //list.replicate();
 
 
         System.out.println("Добро пожаловать в интерактивный контакт - лист!");
@@ -53,7 +53,7 @@ public class ContactListTest {
         System.out.println("\"1\" - Show first 5 contacts/Показать первые 5 контактов");
         System.out.println("\"2\" - Show last 5 contacts/Показать последние 5 контактов");
         System.out.println("\"3\" - Show all MTC contacts/Показать все МТС контакты");
-        System.out.println("\"4\" - Show all Kievstar contacts/Показать все Киевстар контакты");
+        System.out.println("\"4\" - File Operations/Запись контакт - листа в файл, чтение из файла");
         System.out.println("\"5\" - Remove Last Contact and show without him/Удалить последний контакт и показать без него");
         System.out.println("\"6\" - Find contact by multiparameters(name or phone)/Поиск контакта по мультипараметру(имени или номеру)");
         System.out.println("\"7\" - Add to the contactList from console/Добавление в контакт лист нового контакта из консоли");
@@ -91,14 +91,12 @@ public class ContactListTest {
             }
             break;
             case 3: {
-                System.out.println("MTC contacts: \n");
-                list.contactListShowOperator("MTC");
+                subMenuOperator(list);
                 subMenu();
             }
             break;
             case 4: {
-                System.out.println("Kievstar contacts: \n");
-                list.contactListShowOperator("Kievstar");
+                subMenuFileOperations(list);
                 subMenu();
             }
             break;
@@ -139,7 +137,7 @@ public class ContactListTest {
      * Подменю для возврата в главное меню по вводу 0
      */
     public static void subMenu() throws IOException, ClassNotFoundException {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = getScanner();
 
         System.out.println("Возврат в ГЛАВНОЕ МЕНЮ, нажмите \"0\"");
         System.out.println("\"0\" - Return to the MAIN MENU");
@@ -153,11 +151,79 @@ public class ContactListTest {
         mainMenu();
     }
 
+    private static Scanner getScanner() {
+        return new Scanner(System.in);
+    }
+
+    public static void subMenuOperator(ContactList list) throws IOException, ClassNotFoundException {
+        Scanner sc = getScanner();
+        System.out.println("Выберете оператора для отображения контактов:");
+        System.out.println("\"1\" - Оператор МТС");
+        System.out.println("\"2\" - Оператор Киевстар");
+        System.out.println("\"0\" - Возврат в ГЛАВНОЕ МЕНЮ");
+        String selection = sc.nextLine();
+        String res = OperatopMenuValidator(selection);
+
+        int sel = Integer.parseInt(res);
+
+        switch (sel) {
+            case 0: {
+                mainMenu();
+            }
+            break;
+            case 1: {
+                list.contactListShowOperator("MTC");
+                subMenu();
+            }
+            case 2: {
+                System.out.println("Kievstar contacts: \n");
+                list.contactListShowOperator("Kievstar");
+                subMenu();
+            }
+            case 3: {
+                subMenuOperator(list);
+            }
+        }
+    }
+
+    public static void subMenuFileOperations(ContactList list) throws IOException, ClassNotFoundException {
+        Scanner sc = getScanner();
+        System.out.println("Выберете оператора для отображения контактов:");
+        System.out.println("\"1\" - Сохранение контакт - листа в файл D://ContactList.txt");
+        System.out.println("\"2\" - Чтение контакт - листа из файла D://ContactList.txt");
+        System.out.println("\"0\" - Возврат в ГЛАВНОЕ МЕНЮ");
+        String selection = sc.nextLine();
+        String res = OperatopMenuValidator(selection);
+
+        int sel = Integer.parseInt(res);
+
+        switch (sel) {
+            case 0: {
+                mainMenu();
+            }
+            break;
+            case 1: {
+                System.out.println("Контакт лист записан в файл: D://ContactList.txt");
+                list.teleport();
+                subMenu();
+            }
+            case 2: {
+                System.out.println("Контакт лист считан из файла: D://ContactList.txt");
+                list.replicate();
+                subMenu();
+            }
+        }
+    }
+
+
+
+
+
     /**
      * Валидатор вібора пункта меню
      */
     public static String menuValidator(String selection) {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = getScanner();
         while (!checkSelection(selection)) {
             System.out.println("Не правильно введен пункт меню. ВВедите число от 0 до 9. Пример: 7");
             selection = sc.nextLine();
@@ -168,11 +234,35 @@ public class ContactListTest {
     /**
      * Патерн валидации выбора пункта меню, число 0-9, один символ
      */
+/*    public static boolean checkSelection(String selection) {
+
+        Pattern p = Pattern.compile("^[0-9]{1}$");
+        Matcher m = p.matcher(selection);
+        return m.matches();
+    }*/
     public static boolean checkSelection(String selection) {
 
         Pattern p = Pattern.compile("^[0-9]{1}$");
         Matcher m = p.matcher(selection);
         return m.matches();
     }
+
+    public static String OperatopMenuValidator(String selection) {
+        Scanner sc = getScanner();
+        while (!checkOperatopMenuSelection(selection)) {
+            System.out.println("Не правильно введен пункт меню. ВВедите число от 0 до 2. Пример: 2");
+            selection = sc.nextLine();
+        }
+        return selection;
+    }
+
+    public static boolean checkOperatopMenuSelection(String selection) {
+
+        Pattern p = Pattern.compile("^[0-2]{1}$");
+        Matcher m = p.matcher(selection);
+        return m.matches();
+    }
+
+
 
 }
